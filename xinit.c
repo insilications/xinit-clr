@@ -26,6 +26,7 @@ in this Software without prior written authorization from The Open Group.
 
 */
 /* $XFree86: xc/programs/xinit/xinit.c,v 3.32 2002/05/31 18:46:13 dawes Exp $ */
+
 #include <X11/Xlib.h>
 #include <X11/Xos.h>
 #include <stdio.h>
