@@ -48,8 +48,9 @@ fi
 scoclientrc=$HOME/.startxrc
 #endif
 
-userclientrc=$HOME/.xinitrc
-userserverrc=$HOME/.xserverrc
+userclientrc="$HOME/.xinitrc"
+userserverrc="$HOME/.xserverrc"
+/* Note: XINITDIR and BINDIR should be space-free */
 sysclientrc=XINITDIR/xinitrc
 sysserverrc=XINITDIR/xserverrc
 defaultclient=BINDIR/xterm
@@ -64,19 +65,19 @@ if [ -f $scoclientrc ]; then
     defaultclientargs=$scoclientrc
 else
 #endif
-if [ -f $userclientrc ]; then
-    defaultclientargs=$userclientrc
-elif [ -f $sysclientrc ]; then
-    defaultclientargs=$sysclientrc
+if [ -f "$userclientrc" ]; then
+    defaultclientargs="\"$userclientrc\""
+elif [ -f "$sysclientrc" ]; then
+    defaultclientargs="\"$sysclientrc\""
 fi
 #ifdef SCO
 fi
 #endif
 
-if [ -f $userserverrc ]; then
-    defaultserverargs=$userserverrc
-elif [ -f $sysserverrc ]; then
-    defaultserverargs=$sysserverrc
+if [ -f "$userserverrc" ]; then
+    defaultserverargs="\"$userserverrc\""
+elif [ -f "$sysserverrc" ]; then
+    defaultserverargs="\"$sysserverrc\""
 fi
 
 whoseargs="client"
@@ -86,15 +87,15 @@ while [ x"$1" != x ]; do
     /''*|\./''*)
 	if [ "$whoseargs" = "client" ]; then
 	    if [ x"$clientargs" = x ]; then
-		client="$1"
+		client="\"$1\""
 	    else
-		clientargs="$clientargs $1"
+		clientargs="$clientargs \"$1\""
 	    fi
 	else
 	    if [ x"$serverargs" = x ]; then
-		server="$1"
+		server="\"$1\""
 	    else
-		serverargs="$serverargs $1"
+		serverargs="$serverargs \"$1\""
 	    fi
 	fi
 	;;
@@ -103,14 +104,14 @@ while [ x"$1" != x ]; do
 	;;
     *)
 	if [ "$whoseargs" = "client" ]; then
-	    clientargs="$clientargs $1"
+	    clientargs="$clientargs \"$1\""
 	else
 	    XCOMM display must be the FIRST server argument
 	    if [ x"$serverargs" = x ] && @@
 		 expr "$1" : ':[0-9][0-9]*$' > /dev/null 2>&1; then
-		display="$1"
+		display="\"$1\""
 	    else
-		serverargs="$serverargs $1"
+		serverargs="$serverargs \"$1\""
 	    fi
 	fi
 	;;
@@ -124,7 +125,7 @@ if [ x"$client" = x ]; then
     if [ x"$clientargs" = x ]; then
 	client="$defaultclientargs"
     else
-	client=$defaultclient
+	client="$defaultclient"
     fi
 fi
 
@@ -134,12 +135,12 @@ if [ x"$server" = x ]; then
     if [ x"$serverargs" = x -a x"$display" = x ]; then
 	server="$defaultserverargs"
     else
-	server=$defaultserver
+	server="$defaultserver"
     fi
 fi
 
 if [ x"$XAUTHORITY" = x ]; then
-    XAUTHORITY=$HOME/.Xauthority
+    XAUTHORITY="$HOME/.Xauthority"
     export XAUTHORITY
 fi
 
@@ -172,9 +173,13 @@ EOF
 done
 #endif
 
-xinit $client $clientargs -- $server $display $serverargs
+XCOMM correctly process quotes, etc
+eval "set -- $client $clientargs -- $server $display $serverargs"
+
+xinit "$@"
 
 if [ x"$removelist" != x ]; then
+    XCOMM Note: this is still not space-friendly!
     xauth remove $removelist
 fi
 
