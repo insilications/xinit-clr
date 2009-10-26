@@ -56,15 +56,9 @@ command are used to start a client in the same manner as
 The special argument
 .RB '--'
 marks the end of client arguments and the beginning of server options.
-It may be convenient to specify server options with startx to change on a
-per-session basis the
-default color depth, the server's notion of the number of dots-per-inch the
-display device presents, or take advantage of a different server layout, as
-permitted by the
-.BR __XSERVERNAME__ (__appmansuffix__)
-server and specified in the
-.BR __XCONFIGFILEMAN__
-configuration.  Some examples of specifying server arguments follow; consult
+It may be convenient to specify server options with startx to change them on a
+per-session basis.
+Some examples of specifying server arguments follow; consult
 the manual page for your X server to determine which arguments are legal.
 .RS
 .PP
