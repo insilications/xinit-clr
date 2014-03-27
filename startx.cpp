@@ -14,7 +14,7 @@ XCOMM
 unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER
 
-#if defined(__SCO__) || defined(__UNIXWARE__) || defined(__APPLE__)
+#ifdef __APPLE__
 
 XCOMM Check for /usr/bin/X11 and BINDIR in the path, if not add them.
 XCOMM This allows startx to be placed in a place like /usr/bin or /usr/local/bin
@@ -33,11 +33,7 @@ case $PATH in
 esac
 
 XCOMM Now the "old" compiled path
-#ifdef __APPLE__
 oldbindir=/usr/X11R6/bin
-#else
-oldbindir=/usr/bin/X11
-#endif
 
 if [ -d "$oldbindir" ] ; then
     case $PATH in
@@ -51,24 +47,8 @@ XCOMM so export the new PATH just in case the user changes the shell
 export PATH
 #endif
 
-#if defined(__SCO__) || defined(__UNIXWARE__)
-XCOMM Set up the XMERGE env var so that dos merge is happy under X
-
-if [ -f /usr/lib/merge/xmergeset.sh ]; then
-	. /usr/lib/merge/xmergeset.sh
-elif [ -f /usr/lib/merge/console.disp ]; then
-	XMERGE=`cat /usr/lib/merge/console.disp`
-	export XMERGE
-fi
-
-userclientrc=$HOME/.startxrc
-sysclientrc=LIBDIR/sys.startxrc
-scouserclientrc=$HOME/.xinitrc
-scosysclientrc=XINITDIR/xinitrc
-#else
 userclientrc=$HOME/.xinitrc
 sysclientrc=XINITDIR/xinitrc
-#endif
 
 userserverrc=$HOME/.xserverrc
 sysserverrc=XINITDIR/xserverrc
@@ -145,21 +125,6 @@ done
 defaultdisplay=":$d"
 unset d
 
-#if defined(__SCO__) || defined(__UNIXWARE__)
-
-XCOMM SCO -t option: do not start an X server
-case $1 in
-  -t)   if [ -n "$DISPLAY" ]; then
-                REMOTE_SERVER=TRUE
-                shift
-        else
-                echo "DISPLAY environment variable not set"
-                exit 1
-        fi
-        ;;
-esac
-#endif
-
 whoseargs="client"
 while [ x"$1" != x ]; do
     case "$1" in
@@ -209,12 +174,6 @@ if [ x"$client" = x ]; then
             client=$userclientrc
         elif [ -f "$sysclientrc" ]; then
             client=$sysclientrc
-#if defined(__SCO__) || defined(__UNIXWARE__)
-        elif [ -f "$scouserclientrc" ]; then
-            client=$scouserclientrc
-        elif [ -f "$scosysclientrc" ]; then
-            client=$scosysclientrc
-#endif
         fi
     fi
 fi
@@ -319,20 +278,10 @@ EOF
     done
 fi
 
-#if defined(__SCO__) || defined(__UNIXWARE__)
-if [ "$REMOTE_SERVER" = "TRUE" ]; then
-        exec SHELL_CMD ${client}
-else
-        XINIT "$client" $clientargs -- "$server" $display $serverargs
-fi
-#else
-
 #if defined(__APPLE__) || defined(__CYGWIN__)
 eval XINIT \"$client\" $clientargs -- \"$server\" $display $serverargs
 #else
 XINIT "$client" $clientargs -- "$server" $display $serverargs
-#endif
-
 #endif
 retval=$?
 
