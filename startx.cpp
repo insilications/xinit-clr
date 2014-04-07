@@ -59,6 +59,7 @@ defaultserverargs=""
 defaultdisplay=":0"
 clientargs=""
 serverargs=""
+vtarg=""
 
 #ifdef __APPLE__
 
@@ -194,7 +195,7 @@ if [ x"$server" = x ]; then
     tty=$(tty)
     if expr match "$tty" '^/dev/tty[0-9]\+$' > /dev/null; then
         tty_num=$(echo "$tty" | grep -oE '[0-9]+$')
-        defaultserverargs=${defaultserverargs}" vt"${tty_num}
+        vtarg="vt$tty_num"
     fi
 #endif
 
@@ -211,6 +212,17 @@ fi
 XCOMM if no server arguments, use defaults
 if [ x"$serverargs" = x ]; then
     serverargs=$defaultserverargs
+fi
+
+XCOMM if no vt is specified add vtarg (which may be empty)
+have_vtarg="no"
+for i in $serverargs; do
+    if expr match "$i" '^vt[0-9]\+$' > /dev/null; then
+        have_vtarg="yes"
+    fi
+done
+if [ "$have_vtarg" = "no" ]; then
+    serverargs="$serverargs $vtarg"
 fi
 
 XCOMM if no display, use default
