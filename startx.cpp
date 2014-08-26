@@ -191,7 +191,7 @@ if [ x"$server" = x ]; then
 #ifdef __linux__
     XCOMM When starting the defaultserver start X on the current tty to avoid
     XCOMM the startx session being seen as inactive:
-    XCOMM https://bugzilla.redhat.com/show_bug.cgi?id=806491
+    XCOMM "https://bugzilla.redhat.com/show_bug.cgi?id=806491"
     tty=$(tty)
     if expr match "$tty" '^/dev/tty[0-9]\+$' > /dev/null; then
         tty_num=$(echo "$tty" | grep -oE '[0-9]+$')
