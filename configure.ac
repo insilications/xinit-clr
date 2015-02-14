@@ -190,13 +190,8 @@ case $host_os in
     *solaris*)
 	SHELL_CMD="/bin/ksh"
 	;;
-    *sco*)
-	SHELL_CMD="/bin/ksh"
-	SCOMAN=1
-	;;
 esac
 AC_SUBST(SHELL_CMD)
-AC_SUBST(SCOMAN)
 AC_SUBST(XSERVERNAME)
 AC_SUBST(XCONFIGFILE)
 AC_SUBST(XCONFIGFILEMAN)
