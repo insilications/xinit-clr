@@ -326,11 +326,6 @@ if command -v deallocvt > /dev/null 2>&1; then
 fi
 #endif
 
-#ifdef macII
-Xrepair
-screenrestore
-#endif
-
 #if defined(sun)
 kbd_mode -a
 #endif
