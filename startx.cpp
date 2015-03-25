@@ -283,7 +283,7 @@ EOF
 
     XCOMM now add the same credentials to the client authority file
     XCOMM if '$displayname' already exists do not overwrite it as another
-    XCOMM server man need it. Add them to the '$xserverauthfile' instead.
+    XCOMM server may need it. Add them to the '$xserverauthfile' instead.
     for displayname in $authdisplay $hostname$authdisplay; do
         authcookie=`XAUTH list "$displayname" @@
         | sed -n "s/.*$displayname[[:space:]*].*[[:space:]*]//p"` 2>/dev/null;
