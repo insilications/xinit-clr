@@ -91,10 +91,10 @@ if [ x`defaults read $X11_PREFS_DOMAIN cache_fonts` = x1 ] ; then
     fi
 fi
 
-if [ -x XINITDIR/privileged_startx ] ; then
+if [ -x __libexecdir__/privileged_startx ] ; then
 	# Don't push this into the background becasue it can cause
 	# a race to create /tmp/.X11-unix
-	XINITDIR/privileged_startx
+	__libexecdir__/privileged_startx
 fi
 
 if [ x`defaults read $X11_PREFS_DOMAIN no_auth` = x0 ] ; then
