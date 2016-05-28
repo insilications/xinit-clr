@@ -80,6 +80,10 @@ if ! defaults read $X11_PREFS_DOMAIN nolisten_tcp > /dev/null 2>&1 ; then
     defaults write $X11_PREFS_DOMAIN nolisten_tcp -bool true
 fi
 
+if ! defaults read $X11_PREFS_DOMAIN enable_iglx > /dev/null 2>&1 ; then
+    defaults write $X11_PREFS_DOMAIN enable_iglx -bool false
+fi
+
 XCOMM First, start caching fonts
 if [ x`defaults read $X11_PREFS_DOMAIN cache_fonts` = x1 ] ; then
     if [ -x $bindir/font_cache ] ; then
@@ -107,6 +111,12 @@ if [ x`defaults read $X11_PREFS_DOMAIN nolisten_tcp` = x1 ] ; then
     defaultserverargs="$defaultserverargs -nolisten tcp"
 else
     defaultserverargs="$defaultserverargs -listen tcp"
+fi
+
+if [ x`defaults read $X11_PREFS_DOMAIN enable_iglx` = x1 ] ; then
+    defaultserverargs="$defaultserverargs +iglx"
+else
+    defaultserverargs="$defaultserverargs -iglx"
 fi
 
 XCOMM The second check is the real one.  The first is to hopefully avoid
