@@ -105,6 +105,8 @@ fi
 
 if [ x`defaults read $X11_PREFS_DOMAIN nolisten_tcp` = x1 ] ; then
     defaultserverargs="$defaultserverargs -nolisten tcp"
+else
+    defaultserverargs="$defaultserverargs -listen tcp"
 fi
 
 XCOMM The second check is the real one.  The first is to hopefully avoid
