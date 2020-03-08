@@ -71,18 +71,14 @@ startx \-\^\- \-layout Multihead
 .PP
 To determine the client to run,
 .B startx
-looks for the following files, in order:
-.RS
-.PP
-.I $(HOME)/.startxrc
-.PP
-.I __libdir__/sys.startxrc
-.PP
-.I $(HOME)/.xinitrc
-.PP
-.I __xinitdir__/xinitrc
-.RE
-.PP
+first looks for a file called
+.I .xinitrc
+in the user's home directory.  If that is not found, it uses
+the file
+.I xinitrc
+in the
+.I xinit
+library directory.
 If command line client options are given, they override this
 behavior and revert to the
 .BR xinit (__appmansuffix__)
