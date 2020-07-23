@@ -96,7 +96,7 @@ if [ x`defaults read $X11_PREFS_DOMAIN cache_fonts` = x1 ] ; then
 fi
 
 if [ -x __libexecdir__/privileged_startx ] ; then
-	# Don't push this into the background becasue it can cause
+	# Don't push this into the background because it can cause
 	# a race to create /tmp/.X11-unix
 	__libexecdir__/privileged_startx
 fi

@@ -137,7 +137,7 @@ int server_main(const char *dir) {
     }
 
     if (launch_data_get_type(config) == LAUNCH_DATA_ERRNO) {
-        asl_log(NULL, NULL, ASL_LEVEL_ERR, "launchd checkin failed eith error: %d %s", launch_data_get_errno(config), strerror(launch_data_get_errno(config)));
+        asl_log(NULL, NULL, ASL_LEVEL_ERR, "launchd checkin failed with error: %d %s", launch_data_get_errno(config), strerror(launch_data_get_errno(config)));
         exit(EXIT_FAILURE);
     }
 
