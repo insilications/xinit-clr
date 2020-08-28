@@ -251,18 +251,7 @@ if [ x"$enable_xauth" = x1 ] ; then
     removelist=
 
     XCOMM set up default Xauth info for this machine
-    case `uname` in
-    Linux*)
-        if [ -z "`hostname --version 2>&1 | grep GNU`" ]; then
-            hostname=`hostname -f`
-        else
-            hostname=`hostname`
-        fi
-        ;;
-    *)
-        hostname=`hostname`
-        ;;
-    esac
+    hostname=`uname -n`
 
     authdisplay=${display:-:0}
 #if defined(HAS_COOKIE_MAKER) && defined(MK_COOKIE)
