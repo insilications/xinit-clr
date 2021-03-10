@@ -46,8 +46,6 @@
 #include <asl.h>
 #include <errno.h>
 
-#include "console_redirect.h"
-
 #include "privileged_startx.h"
 #include "privileged_startxServer.h"
 
@@ -153,8 +151,8 @@ int server_main(const char *dir) {
     }
 
     aslc = asl_open(labelstr, BUNDLE_ID_PREFIX, ASL_OPT_NO_DELAY);
-    xi_asl_capture_fd(aslc, NULL, ASL_LEVEL_INFO, STDOUT_FILENO);
-    xi_asl_capture_fd(aslc, NULL, ASL_LEVEL_NOTICE, STDERR_FILENO);
+    asl_log_descriptor(aslc, NULL, ASL_LEVEL_INFO, STDOUT_FILENO, ASL_LOG_DESCRIPTOR_WRITE);
+    asl_log_descriptor(aslc, NULL, ASL_LEVEL_NOTICE, STDERR_FILENO, ASL_LOG_DESCRIPTOR_WRITE);
 
 #ifdef LAUNCH_JOBKEY_MACHSERVICES
     launch_data_t tmv;

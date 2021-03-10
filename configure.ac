@@ -117,26 +117,12 @@ if test "x$LAUNCHD" = "xauto"; then
 	AC_CHECK_PROG(LAUNCHD, [launchd], [yes], [no], [$PATH$PATH_SEPARATOR/sbin])
 fi
 
-TIGER_LAUNCHD=no
-if test "x$LAUNCHD" = "xyes" ; then
-	AC_DEFINE(HAVE_LAUNCHD, 1, [launchd support available])
-	case $host_os in
-		darwin8*)
-			TIGER_LAUNCHD=yes
-		;;
-	esac
-        AC_CHECK_FUNC(dispatch_async,
-                              AC_DEFINE([HAVE_LIBDISPATCH], 1, [Define to 1 if you have the libdispatch (GCD) available]),
-                              [])
-fi
-
 AC_DEFINE_UNQUOTED(BUNDLE_ID_PREFIX, "$bundleidprefix", [Prefix to use for launchd identifiers])
 AC_SUBST([launchagentsdir])
 AC_SUBST([launchdaemonsdir])
 AC_SUBST([bundleidprefix])
 AC_SUBST([launchagentxserver])
 AM_CONDITIONAL(LAUNCHD, [test "x$LAUNCHD" = "xyes"])
-AM_CONDITIONAL(TIGER_LAUNCHD, [test "x$TIGER_LAUNCHD" = "xyes"])
 AM_CONDITIONAL(LAUNCHAGENT_XSERVER, [test "x$launchagentxserver" != "xno"])
 
 # Checks for pkg-config packages
