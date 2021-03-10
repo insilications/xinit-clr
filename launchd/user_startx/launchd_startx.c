@@ -54,6 +54,11 @@ int main(int argc, char **argv, char **envp) {
     asl_log_descriptor(aslc, NULL, ASL_LEVEL_INFO, STDOUT_FILENO, ASL_LOG_DESCRIPTOR_WRITE);
     asl_log_descriptor(aslc, NULL, ASL_LEVEL_NOTICE, STDERR_FILENO, ASL_LOG_DESCRIPTOR_WRITE);
 
+    /* https://github.com/XQuartz/XQuartz/issues/114 */
+    char const * const home = getenv("HOME");
+    assert(home);
+    chdir(home);
+
     assert(posix_spawnp(&child, argv[1], NULL, NULL, &argv[1], envp) == 0);
     wait4(child, &pstat, 0, (struct rusage *)0);
 
