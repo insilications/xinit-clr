@@ -114,7 +114,7 @@ else
 fi
 
 if [ x`defaults read $X11_PREFS_DOMAIN enable_iglx` = x1 ] ; then
-    defaultserverargs="$defaultserverargs +iglx"
+    defaultserverargs="$defaultserverargs +iglx +extension GLX"
 else
     defaultserverargs="$defaultserverargs -iglx"
 fi
