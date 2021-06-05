@@ -206,7 +206,7 @@ if [ x"$server" = x ]; then
     XCOMM "https://bugzilla.redhat.com/show_bug.cgi?id=806491"
     tty=$(tty)
     if expr "$tty" : '/dev/tty[0-9][0-9]*$' > /dev/null; then
-        tty_num=$(echo "$tty" | grep -oE '[0-9]+$')
+        tty_num=${tty#/dev/tty}
         vtarg="vt$tty_num -keeptty"
     fi
 #endif
