@@ -11,7 +11,6 @@ XCOMM
 XCOMM Site administrators are STRONGLY urged to write nicer versions.
 XCOMM
 
-unset DBUS_SESSION_BUS_ADDRESS
 unset SESSION_MANAGER
 
 #ifdef __APPLE__
