@@ -48,8 +48,18 @@ if [ -d XINITDIR/xinitrc.d ] ; then
 	unset f
 fi
 
-TWM &
-XCLOCK -geometry 50x50-1+1 &
-XTERM -geometry 80x50+494+51 &
-XTERM -geometry 80x20+494-0 &
-exec XTERM -geometry 80x66+0+0 -name login
+if [ -x /usr/bin/gnome-shell ]; then
+    export XDG_CURRENT_DESKTOP="GNOME-Flashback"
+    exec gnome-session  --session=gnome-flashback-metacity
+fi
+
+
+if [ -x /usr/bin/startxfce4 ] ; then
+    exec startxfce4
+fi
+
+
+echo "No usable desktops found. Please customise ~/.xinitrc"
+echo -e "Alternatively, install the GNOME experience:\n"
+echo "    swupd bundle-add desktop"
+echo "    swupd update"
